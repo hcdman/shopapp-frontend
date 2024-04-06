@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { RegisterDTO } from '../dtos/user/register.dto';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -17,7 +18,7 @@ export class RegisterComponent {
   address: string;
   isAccepted: boolean;
   dateOfBirth: Date;
-  constructor() {
+  constructor(private router: Router, private userService: UserService) {
     this.phone = '';
     this.password = '';
     this.retypePassword = '';
@@ -26,14 +27,43 @@ export class RegisterComponent {
     this.isAccepted = false;
     this.dateOfBirth = new Date();
     this.dateOfBirth.setFullYear(this.dateOfBirth.getFullYear() - 18);
+    //inject
+
   }
   onPhoneChange() {
     console.log(`phone typed: ${this.phone}`);
 
   }
   register() {
-    const message = `phone: ${this.phone}  name: ${this.fullname}  password: ${this.password} address: ${this.address}  isaccept: ${this.isAccepted}`
-    alert(message);
+    const registerDTO:RegisterDTO = {
+      "fullname": this.fullname,
+      "phone_number": this.phone,
+      "address": this.address,
+      "password": this.password,
+      "retype_password": this.retypePassword,
+      "date_of_birth": this.dateOfBirth,
+      "facebook_account_id": 0,
+      "google_account_id": 0,
+      "role_id": 1
+    };
+   this.userService.register(registerDTO).subscribe(
+    {
+      next: (response: any) => {
+        debugger
+        //handle response when register success
+        this.router.navigate(['/login']);
+      },
+      complete: () => {
+        debugger
+      },
+      error: (error: any) => {
+        alert(error.error)
+        debugger
+        console.error('Đăng ký thông tin không thành công', error);
+      }
+    }
+   )
+  
   }
   checkPasswordMatch() {
     if (this.password !== this.retypePassword) {
@@ -52,7 +82,7 @@ export class RegisterComponent {
       if (monthDiff < 0 || monthDiff == 0 && today.getDay() < birtDate.getDay()) {
         age--;
       }
-      if (age<18) {
+      if (age < 18) {
         this.registerForm.form.controls['dateOfBirth'].setErrors({ 'invalidAge': true });
       }
       else {
