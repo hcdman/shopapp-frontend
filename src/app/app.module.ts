@@ -38,6 +38,6 @@ import { TokenInterceptor } from './interceptors/interceptor';
       multi: true
     }
   ],
-  bootstrap: [LoginComponent]
+  bootstrap: [HomeComponent]
 })
 export class AppModule { }

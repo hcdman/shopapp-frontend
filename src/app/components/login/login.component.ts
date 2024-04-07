@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { LoginDTO } from '../../dtos/user/login.dto';
@@ -12,7 +12,7 @@ import { Role } from 'src/app/models/role';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   phoneNumber: string =  '0123456789';
   password: string = '1234567';
   roles: Role[]=[];
