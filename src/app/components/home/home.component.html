@@ -4,12 +4,14 @@
         <h1>This is home page</h1>
     </div>
     <div class="search-box">
-        <input type="text" class="form-control search-input" placeholder="find product">
-        <select class="form-control product-category">
-            <option selected disabled>Category</option>
-            <option>Electric</option>
-            <option>Instrusment</option>
+        <input type="text" class="form-control search-input" placeholder="find product" [(ngModel)]="keyword">
+        <select class="form-control product-category"  [(ngModel)]="selectedCategoryId">
+            <option [value]="0">Tất cả</option>
+            <option *ngFor="let category of categories" [value]="category.id">
+              {{category.name}}
+            </option>
         </select>
+        <button type="button"  class="search-button" (click)="searchProduct()" >Tìm kiếm</button>
     </div>
     <div class="row">
         <div class="col-lg-4 col-md-6" *ngFor="let product of products">

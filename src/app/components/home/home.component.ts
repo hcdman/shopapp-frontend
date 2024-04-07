@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/app/environments/environment';
+import { Category } from 'src/app/models/category';
 import { Product } from 'src/app/models/product';
+import { CategoryService } from 'src/app/services/category.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -12,21 +14,25 @@ export class HomeComponent implements OnInit {
 
   //some field 
   products: Product[] = [];
-  currentPage: number = 1;
-  itemsPerpage: number = 10;
+  currentPage: number = 0;
+  itemsPerpage: number = 12;
   pages: number[] = [];
   totalPages: number = 0;
   visiblePages: number[] = [];
-
-  constructor(private productService: ProductService) { }
+  categories: Category[]=[];
+  selectedCategoryId: number=0;
+  keyword: string ='';
+  constructor(private productService: ProductService,private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.getProducts(this.currentPage, this.itemsPerpage);
+    this.getCategories();
+    //get category to dispay
   }
 
   //get product
   getProducts(page: number, limit: number) {
-    this.productService.getProducts(page, limit).subscribe(
+    this.productService.getProducts(this.keyword,this.selectedCategoryId,page, limit).subscribe(
       {
         next: (response: any) => {
           debugger
@@ -46,6 +52,28 @@ export class HomeComponent implements OnInit {
         }
       }
     )
+  }
+  getCategories()
+  {
+    this.categoryService.getCategories().subscribe(
+      {
+        next: (categories: Category[])=>
+          {
+            this.categories = categories;
+          },
+          error: (error:any)=>
+            {
+              console.log(`Error getting roles: `,error);
+              
+            }
+      }
+    )
+  }
+  searchProduct()
+  {
+    this.currentPage=0;
+    this.itemsPerpage=12;
+    this.getProducts(this.currentPage, this.itemsPerpage);
   }
   onPageChange(page: number) {
     debugger;
