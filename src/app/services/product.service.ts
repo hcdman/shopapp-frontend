@@ -26,4 +26,9 @@ export class ProductService {
     };
     return this.http.get<Product[]>(`${this.apiBaseUrl}/products`, { params });
   }
+
+  getDetailProduct(productId: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiBaseUrl}/products/${productId}`);
+  }
+
 }

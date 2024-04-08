@@ -94,6 +94,4 @@ export class HomeComponent implements OnInit {
     return new Array(endPage - startPage + 1).fill(0)
       .map((_, index) => startPage + index);
   }
-
-
 }
