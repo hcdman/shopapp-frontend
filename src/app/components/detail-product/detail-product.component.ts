@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/app/environments/environment';
 import { Product } from 'src/app/models/product';
 import { ProductImage } from 'src/app/models/product.image';
+import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -16,11 +17,12 @@ export class DetailProductComponent implements OnInit {
   count: number = 1;
 
   constructor(
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService: CartService
   ) { }
 
   ngOnInit() {
-    const idParam = 2
+    const idParam = 5
     this.productId = idParam;
     // if (idParam !== null) {
     //   this.productId = +idParam;
@@ -76,6 +78,14 @@ export class DetailProductComponent implements OnInit {
     this.showImage(this.currentImageIndex + 1);
   }
 
+  addToCart(): void {
+    
+    if (this.product) {
+      this.cartService.addToCart(this.product.id, this.count);
+    } else {
+      console.error('Something error!');
+    }
+  }
   previousImage(): void {
     debugger
     this.showImage(this.currentImageIndex - 1);
