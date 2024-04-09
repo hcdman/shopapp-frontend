@@ -8,11 +8,13 @@ import { RegisterComponent } from './components/register/register.component';
 import { DetailProductComponent } from './components/detail-product/detail-product.component';
 import { OrderConfirmComponent } from './components/order-confirm/order-confirm.component';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule
   ,HTTP_INTERCEPTORS
  } from '@angular/common/http';
 import { FooterComponent } from './components/footer/footer.component';
 import { TokenInterceptor } from './interceptors/interceptor';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { TokenInterceptor } from './interceptors/interceptor';
        OrderConfirmComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     FormsModule,
     HttpClientModule

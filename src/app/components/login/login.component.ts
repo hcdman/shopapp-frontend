@@ -13,8 +13,8 @@ import { Role } from 'src/app/models/role';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  phoneNumber: string =  '0123456789';
-  password: string = '1234567';
+  phoneNumber: string =  '33445566';
+  password: string = '123456';
   roles: Role[]=[];
   rememberMe: boolean = true;
   selectedRole: Role|undefined;
