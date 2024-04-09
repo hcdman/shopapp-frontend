@@ -14,6 +14,8 @@ import { HttpClientModule
  } from '@angular/common/http';
 import { FooterComponent } from './components/footer/footer.component';
 import { TokenInterceptor } from './interceptors/interceptor';
+import { AppComponent } from './app/app.component';
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -26,13 +28,15 @@ import { TokenInterceptor } from './interceptors/interceptor';
        LoginComponent,
        RegisterComponent,
        DetailProductComponent,
-       OrderDetailComponent
+       OrderDetailComponent,
+       AppComponent
   ],
   imports: [
     ReactiveFormsModule,
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [
     {
@@ -41,6 +45,6 @@ import { TokenInterceptor } from './interceptors/interceptor';
       multi: true
     }
   ],
-  bootstrap: [OrderDetailComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
