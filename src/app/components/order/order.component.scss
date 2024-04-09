@@ -65,3 +65,8 @@ td {
     border-radius: 30px;
     width: 200px;
   }
+  ::placeholder {
+    color: white;
+    opacity: 0.2; /* Firefox */
+  }
+  
