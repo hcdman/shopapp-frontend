@@ -6,6 +6,7 @@ import { LoginResponse } from 'src/app/responses/user/login.response';
 import { TokenService } from 'src/app/services/token.service';
 import { RoleService } from 'src/app/services/role.service';
 import { Role } from 'src/app/models/role';
+import { UserResponse } from 'src/app/responses/user/user.response';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   roles: Role[]=[];
   rememberMe: boolean = true;
   selectedRole: Role|undefined;
+  userResponse?: UserResponse
 
   constructor(private router: Router,
      private userService: UserService,
@@ -48,33 +50,50 @@ export class LoginComponent implements OnInit {
     );
   }
   login() {
-    const loginDTO:LoginDTO = {
+    const message = `phone: ${this.phoneNumber}` +
+      `password: ${this.password}`;
+    //alert(message);
+    debugger
+
+    const loginDTO: LoginDTO = {
       phone_number: this.phoneNumber,
       password: this.password,
-      role_id: this.selectedRole?.id??1
+      role_id: this.selectedRole?.id ?? 1
     };
-    debugger
-   this.userService.login(loginDTO).subscribe(
-    {
+    this.userService.login(loginDTO).subscribe({
       next: (response: LoginResponse) => {
-        debugger
-        //save token
-        const {token}=response;
-        if(this.rememberMe)
-          {
-        this.tokenService.setToken(token);
-          }
-      
+        debugger;
+        const { token } = response;
+        if (this.rememberMe) {          
+          this.tokenService.setToken(token);
+          debugger;
+          this.userService.getUserDetail(token).subscribe({
+            next: (response: any) => {
+              debugger
+              this.userResponse = {
+                ...response,
+                date_of_birth: new Date(response.date_of_birth),
+              };    
+              this.userService.saveUserResponseToLocalStorage(this.userResponse); 
+              this.router.navigate(['/']);                      
+            },
+            complete: () => {
+              debugger;
+            },
+            error: (error: any) => {
+              debugger;
+              alert(error.error.message);
+            }
+          })
+        }                        
       },
       complete: () => {
-        debugger
+        debugger;
       },
       error: (error: any) => {
-        debugger
-        console.error('Đăng nhập không thành công', error);
+        debugger;
+        alert(error.error.message);
       }
-    }
-   )
-  
+    });
   }
 }

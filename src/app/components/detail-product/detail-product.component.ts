@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/app/environments/environment';
 import { Product } from 'src/app/models/product';
 import { ProductImage } from 'src/app/models/product.image';
@@ -15,44 +16,50 @@ export class DetailProductComponent implements OnInit {
   productId: number = 0;
   currentImageIndex: number = 0;
   count: number = 1;
+ 
 
   constructor(
+
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private route: ActivatedRoute,
+   private router: Router
   ) { }
 
   ngOnInit() {
-    const idParam = 5
-    this.productId = idParam;
-    // if (idParam !== null) {
-    //   this.productId = +idParam;
-    // }
-    if (!isNaN(this.productId)) {
-      this.productService.getDetailProduct(this.productId).subscribe({
-        next: (response: any) => {
-
-          debugger
-          if (response.product_images && response.product_images.length > 0) {
-            response.product_images.forEach(
-              (product_image: ProductImage) => {
-                product_image.image_url = `${environment.apiBaseUrl}/products/images/${product_image.image_url}`;
-              });
+  
+    this.route.paramMap.subscribe(params=>
+      {
+        debugger
+        const idParam = Number(params.get('id'));
+        if(!isNaN(idParam))
+          {
+            this.productId=idParam;
+            this.productService.getDetailProduct(this.productId).subscribe({
+              next: (response: any) => {
+      
+                debugger
+                if (response.product_images && response.product_images.length > 0) {
+                  response.product_images.forEach(
+                    (product_image: ProductImage) => {
+                      product_image.image_url = `${environment.apiBaseUrl}/products/images/${product_image.image_url}`;
+                    });
+                }
+                debugger
+                this.product = response
+                this.showImage(0);
+              },
+              complete: () => {
+                debugger;
+              },
+              error: (error: any) => {
+                debugger;
+                console.error('Error fetching detail:', error);
+              }
+            });
           }
-          debugger
-          this.product = response
-          this.showImage(0);
-        },
-        complete: () => {
-          debugger;
-        },
-        error: (error: any) => {
-          debugger;
-          console.error('Error fetching detail:', error);
-        }
-      });
-    } else {
-      console.error('Invalid productId:', idParam);
-    }
+      }
+    )
   }
   showImage(index: number): void {
     debugger
@@ -71,7 +78,7 @@ export class DetailProductComponent implements OnInit {
   thumbnailClick(index: number) {
     debugger
 
-    this.currentImageIndex = index; // Cáº­p nháº­t currentImageIndex
+    this.currentImageIndex = index;
   }
   nextImage(): void {
     debugger
@@ -96,5 +103,7 @@ export class DetailProductComponent implements OnInit {
   decrease(): void {
     if (this.count >= 2) { this.count--; }
   }
-
+  buyNow(): void {      
+    this.router.navigate(['/orders']);
+  }    
 }

@@ -6,6 +6,7 @@ import { OrderService } from '../../services/order.service';
 import { environment } from 'src/app/environments/environment';
 import { OrderDTO } from '../../dtos/order/order.dto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-order',
@@ -32,6 +33,7 @@ export class OrderComponent implements OnInit{
   };
 
   constructor(
+    private router: Router,
     private cartService: CartService,
     private productService: ProductService,
     private orderService: OrderService,
@@ -70,7 +72,6 @@ export class OrderComponent implements OnInit{
             quantity: cart.get(productId)!
           };
         });
-        console.log('haha');
       },
       complete: () => {
         debugger;
@@ -85,16 +86,6 @@ export class OrderComponent implements OnInit{
   placeOrder() {
     debugger
     if (this.orderForm.valid) {
-     
-      /*
-      this.orderData.fullname = this.orderForm.get('fullname')!.value;
-      this.orderData.email = this.orderForm.get('email')!.value;
-      this.orderData.phone_number = this.orderForm.get('phone_number')!.value;
-      this.orderData.address = this.orderForm.get('address')!.value;
-      this.orderData.note = this.orderForm.get('note')!.value;
-      this.orderData.shipping_method = this.orderForm.get('shipping_method')!.value;
-      this.orderData.payment_method = this.orderForm.get('payment_method')!.value;
-      */
 
       this.orderData = {
         ...this.orderData,
@@ -104,11 +95,12 @@ export class OrderComponent implements OnInit{
         product_id: cartItem.product.id,
         quantity: cartItem.quantity
       }));
-    
+      this.orderData.total_money = this.totalAmount;
       this.orderService.placeOrder(this.orderData).subscribe({
         next: (response) => {
-          debugger;
-          console.log('pplace order successfully !');
+          alert('Đặt hàng thành công');
+          this.cartService.clearCart();
+          this.router.navigate(['/']);
         },
         complete: () => {
           debugger;
@@ -116,11 +108,11 @@ export class OrderComponent implements OnInit{
         },
         error: (error: any) => {
           debugger;
-          console.error('Error: ', error);
+          alert(`Lỗi khi đặt hàng: ${error}`);
         },
       });
     } else {
-      alert('');
+      alert('Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.');
     }        
   }
     
@@ -132,6 +124,7 @@ export class OrderComponent implements OnInit{
           (total, item) => total + item.product.price * item.quantity,
           0
       );
+
   }
 
   applyCoupon(): void {
