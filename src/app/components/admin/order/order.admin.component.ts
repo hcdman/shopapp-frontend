@@ -3,12 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Order } from 'src/app/models/order';
-import { OrderService } from 'src/app/services/order.service';
-import { Observable } from 'rxjs';
 
-import { OrderResponse } from 'src/app/responses/order/order.response';
+import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
+import { OrderResponse } from '../../../responses/order/order.response';
+import { OrderService } from '../../../services/order.service';
 
 @Component({
   selector: 'app-order-admin',
@@ -34,7 +33,15 @@ export class OrderAdminComponent implements OnInit{
   }
   ngOnInit(): void {
     debugger
+    this.currentPage = Number(localStorage.getItem('currentOrderAdminPage')) || 0; 
     this.getAllOrders(this.keyword, this.currentPage, this.itemsPerPage);
+  }
+  searchOrders() {
+    this.currentPage = 0;
+    this.itemsPerPage = 12;
+    //Mediocre Iron Wallet
+    debugger
+    this.getAllOrders(this.keyword.trim(), this.currentPage, this.itemsPerPage);
   }
   getAllOrders(keyword: string, page: number, limit: number) {
     debugger
@@ -56,7 +63,8 @@ export class OrderAdminComponent implements OnInit{
   }
   onPageChange(page: number) {
     debugger;
-    this.currentPage = page;
+    this.currentPage = page < 0 ? 0 : page;
+    localStorage.setItem('currentOrderAdminPage', String(this.currentPage));         
     this.getAllOrders(this.keyword, this.currentPage, this.itemsPerPage);
   }
 
@@ -74,6 +82,7 @@ export class OrderAdminComponent implements OnInit{
     return new Array(endPage - startPage + 1).fill(0)
         .map((_, index) => startPage + index);
   }
+
   deleteOrder(id:number) {
     const confirmation = window
       .confirm('Are you sure you want to delete this order?');

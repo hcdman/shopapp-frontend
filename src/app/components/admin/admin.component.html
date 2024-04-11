@@ -10,19 +10,25 @@
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link" 
-                (click)="showAdminComponent('orders')">
+                (click)="showAdminComponent('orders')"
+                routerLink="/admin/orders"
+                routerLinkActive="active">
                 <i class="fab fa-first-order icon"></i>Orders
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" 
-                (click)="showAdminComponent('categories')">
+                (click)="showAdminComponent('categories')"
+                  routerLink="/admin/categories"
+                  routerLinkActive="active">
                 <i class="fab fa-canadian-maple-leaf icon"></i>Categories
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" 
-                (click)="showAdminComponent('products')">
+                (click)="showAdminComponent('products')"
+                routerLink="/admin/products"
+                routerLinkActive="active">
                 <i class="fab fa-codepen icon"></i>Products
               </a>
             </li>
@@ -30,6 +36,13 @@
         </div>
       </nav>
       <div class="col-md-10 col-lg-10 overflow-auto">
+        <!--
+        <ng-container [ngSwitch]="adminComponent">
+          <app-order-admin *ngSwitchCase="'orders'"></app-order-admin>
+          <app-product-admin *ngSwitchCase="'products'"></app-product-admin>
+          <app-category-admin *ngSwitchCase="'categories'"></app-category-admin>                    
+        </ng-container>
+        -->
         <router-outlet></router-outlet>
       </div>
     </div>

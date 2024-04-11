@@ -1,8 +1,8 @@
 <app-header></app-header>
 <div class="container">
     <div class="intro-section">
-        <h1>Đây là trang Order</h1>
-        <p>Sử dụng Bootstrap</p>
+      
+        
     </div> 
     <form [formGroup]="orderForm"> <!-- Thêm form và gán formGroup -->   
     <div class="row">
@@ -14,7 +14,7 @@
                         formControlName="fullname" 
                         class="form-control" 
                         id="fullname" 
-                        [class.is-invalid]="orderForm.get('fullname')!.invalid && orderForm.get('fullname')!.touched">
+                        [class.is-invalid]="orderForm.get('fullname')!.invalid && orderForm.get('fullname')!.touched" placeholder="Họ và tên">
                     <div 
                         *ngIf="orderForm.get('fullname')!.invalid && orderForm.get('fullname')!.touched" 
                         class="invalid-feedback">
@@ -27,6 +27,7 @@
                         formControlName="email" 
                         class="form-control" 
                         id="email" 
+                        placeholder="Email"
                         [class.is-invalid]="orderForm.get('email')!.invalid && orderForm.get('email')!.touched">
                     <div *ngIf="orderForm.get('email')!.invalid && orderForm.get('email')!.touched" 
                         class="invalid-feedback">
