@@ -18,7 +18,7 @@ import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserProfileComponent } from './components/user-profile/user.profile.component';
-import { AdminComponent } from './components/admin/admin.component';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +32,6 @@ import { AdminComponent } from './components/admin/admin.component';
        DetailProductComponent,
        OrderDetailComponent,
        UserProfileComponent,
-       AdminComponent,
        AppComponent
   ],
   imports: [

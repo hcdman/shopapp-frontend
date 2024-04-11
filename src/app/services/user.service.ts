@@ -64,7 +64,7 @@ export class UserService {
       })
     })
   }
-  getUserResponseFromLocalStorage() {
+    getUserResponseFromLocalStorage() {
     try {
       // Retrieve the JSON string from local storage using the key
       const userResponseJSON = localStorage.getItem('user');
