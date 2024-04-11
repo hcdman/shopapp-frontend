@@ -13,7 +13,7 @@ import { UserProfileComponent } from './components/user-profile/user.profile.com
 import { AdminComponent } from './components/admin/admin.component';
 import { AuthGuardFn } from './guards/auth.guard';
 import { AdminGuardFn } from './guards/admin.guard';
-import { OrderAdminComponent } from './components/admin/orders/order.admin.component';
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,13 +23,19 @@ const routes: Routes = [
   { path: 'orders', component: OrderComponent,canActivate:[AuthGuardFn] },
   { path: 'user-profile', component: UserProfileComponent, canActivate:[AuthGuardFn] },
   { path: 'orders/:id', component: OrderDetailComponent },
-  //Admin 
-  { path: 'admin', component: AdminComponent, canActivate:[AdminGuardFn] },
-  { path: 'admin/orders', component: OrderAdminComponent, canActivate:[AdminGuardFn] },    
+  //Admin   
+  { 
+    path: 'admin', 
+    component: AdminComponent, 
+    canActivate:[AdminGuardFn] 
+  },      
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes),
+    CommonModule
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
