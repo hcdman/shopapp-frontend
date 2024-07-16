@@ -17,10 +17,10 @@ import { UserResponse } from '../../responses/user/user.response';
 export class LoginComponent implements OnInit {
   @ViewChild('loginForm') loginForm!: NgForm;
 
-  phoneNumber: string = '33445566';
-  password: string = '123';
+  phoneNumber: string = '123321';
+  password: string = 'user';
   showPassword: boolean = false;
-
+  remember: boolean = false;
   roles: Role[] = []; // Mảng roles
   selectedRole: Role | undefined; // Biến để lưu giá trị được chọn từ dropdown
   userResponse?: UserResponse
@@ -55,8 +55,9 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-  createAccount() {
+  createAccount(event: Event) {
     debugger
+    event.preventDefault();
     // Chuyển hướng người dùng đến trang đăng ký (hoặc trang tạo tài khoản)
     this.router.navigate(['/register']);
   }
@@ -75,7 +76,8 @@ export class LoginComponent implements OnInit {
       next: (response: LoginResponse) => {
         debugger;
         const { token } = response;
-          this.tokenService.setToken(token);
+        const expiresInMinutes = 1;
+        this.tokenService.setToken(token,expiresInMinutes);
         debugger;
         this.userService.getUserDetail(token).subscribe({
           next: (response: any) => {
@@ -84,7 +86,7 @@ export class LoginComponent implements OnInit {
               ...response,
               date_of_birth: new Date(response.date_of_birth),
             };
-            this.userService.saveUserResponseToLocalStorage(this.userResponse);
+            this.userService.saveUserResponse(this.userResponse,1,this.remember);
             if (this.userResponse?.role.name == 'admin') {
               this.router.navigate(['/admin']);
             } else if (this.userResponse?.role.name == 'user') {
@@ -112,5 +114,9 @@ export class LoginComponent implements OnInit {
   }
   togglePassword() {
     this.showPassword = !this.showPassword;
+  }
+  rememberMe()
+  {
+    this.remember=!this.remember;
   }
 }

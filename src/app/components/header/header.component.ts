@@ -23,7 +23,8 @@ export class HeaderComponent implements OnInit{
     
    }
   ngOnInit() {
-    this.userResponse = this.userService.getUserResponseFromLocalStorage();    
+    debugger
+    this.userResponse = this.userService.getUserResponse();    
   }  
 
   togglePopover(event: Event): void {
@@ -37,9 +38,9 @@ export class HeaderComponent implements OnInit{
       debugger
       this.router.navigate(['/user-profile']);                      
     } else if (index === 2) {
-      this.userService.removeUserFromLocalStorage();
+      this.userService.removeUserFromCookie();
       this.tokenService.removeToken();
-      this.userResponse = this.userService.getUserResponseFromLocalStorage();    
+      this.userResponse = this.userService.getUserResponse();    
     }
     this.isPopoverOpen = false; // Close the popover after clicking an item    
   }

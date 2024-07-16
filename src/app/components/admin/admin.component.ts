@@ -21,7 +21,7 @@ export class AdminComponent implements OnInit {
     
    }
   ngOnInit() {
-    this.userResponse = this.userService.getUserResponseFromLocalStorage();    
+    this.userResponse = this.userService.getUserResponse();    
     // Default router
     debugger
     if (this.router.url === '/admin') {
@@ -29,9 +29,9 @@ export class AdminComponent implements OnInit {
     }
    }  
   logout() {
-    this.userService.removeUserFromLocalStorage();
+    this.userService.removeUserFromCookie();
     this.tokenService.removeToken();
-    this.userResponse = this.userService.getUserResponseFromLocalStorage();    
+    this.userResponse = this.userService.getUserResponse();    
     this.router.navigate(['/']);
   }
   showAdminComponent(componentName: string): void {
@@ -44,12 +44,3 @@ export class AdminComponent implements OnInit {
     }
   }
 }
-
-
-/**
- npm install --save font-awesome
- angular.json:
- "styles": [   
-    "node_modules/font-awesome/css/font-awesome.min.css"
-],
- */

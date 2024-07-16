@@ -58,7 +58,7 @@ export class ProductService {
   }
   deleteProductImage(id: number): Observable<any> {
     debugger
-    return this.http.delete<string>(`${this.apiBaseUrl}/product_images/${id}`);
+    return this.http.delete<string>(`${this.apiBaseUrl}/products/product_images/${id}`);
   }
 }
 //update.category.admin.component.html

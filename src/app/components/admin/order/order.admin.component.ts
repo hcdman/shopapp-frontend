@@ -33,7 +33,7 @@ export class OrderAdminComponent implements OnInit{
   }
   ngOnInit(): void {
     debugger
-    this.currentPage = Number(localStorage.getItem('currentOrderAdminPage')) || 0; 
+    this.currentPage = 0; 
     this.getAllOrders(this.keyword, this.currentPage, this.itemsPerPage);
   }
   searchOrders() {
