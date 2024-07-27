@@ -13,11 +13,13 @@ import { UserProfileComponent } from './components/user-profile/user.profile.com
 import { AdminComponent } from './components/admin/admin.component';
 import { AuthGuardFn } from './guards/auth.guard';
 import { AdminGuardFn } from './guards/admin.guard';
+import { AuthenticateComponent } from './components/authenticate/authenticate.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },  
+  { path: 'authenticate', component: AuthenticateComponent }, 
   { path: 'register', component: RegisterComponent },
   { path: 'products/:id', component: DetailProductComponent },  
   { path: 'orders', component: OrderComponent,canActivate:[AuthGuardFn] },

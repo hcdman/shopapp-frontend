@@ -21,6 +21,7 @@ import {
   HTTP_INTERCEPTORS 
 } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/interceptor';
+import { AuthenticateComponent } from './components/authenticate/authenticate.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { TokenInterceptor } from './interceptors/interceptor';
     LoginComponent, 
     RegisterComponent, 
     UserProfileComponent,
-    AppComponent
+    AppComponent,
+    AuthenticateComponent
   ],
   imports: [
     CommonModule,

@@ -12,8 +12,8 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class UserService {
-  private apiRegister = `${environment.apiBaseUrl}/users/register`;
-  private apiLogin = `${environment.apiBaseUrl}/users/login`;
+  private apiRegister = `${environment.apiBaseUrl}/auth/register`;
+  private apiLogin = `${environment.apiBaseUrl}/auth/login`;
   private apiUserDetail = `${environment.apiBaseUrl}/users/details`;
   private apiConfig = {
     headers: this.createHeaders(),
@@ -33,6 +33,10 @@ export class UserService {
   }
   login(loginDTO: LoginDTO): Observable<any> {
     return this.http.post(this.apiLogin, loginDTO, this.apiConfig);
+  }
+  loginWithGoogle(authCode: string): Observable<any> 
+  {
+    return this.http.post(`${environment.apiBaseUrl}/auth/outbound/authentication?code=${authCode}`,this.apiConfig);
   }
   getUserDetail(token: string) {
     return this.http.post(this.apiUserDetail, {
@@ -85,7 +89,7 @@ export class UserService {
         userResponseJSON = window.sessionStorage.getItem("user");
       }
 
-      if (userResponseJSON == null || userResponseJSON == undefined) {
+      if (userResponseJSON == null || userResponseJSON == undefined || userResponseJSON.length==0) {
         return null;
       }
       // Parse the JSON string back to an object

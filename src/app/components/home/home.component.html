@@ -11,7 +11,7 @@
               {{category.name}}
             </option>
         </select>
-        <button type="button"  class="search-button" (click)="searchProduct()" >Tìm kiếm</button>
+        <button type="button"  class="search-button" (click)="searchProduct()" >Search</button>
     </div>
     <div class="row">
         <div class="col-lg-4 col-md-6" *ngFor="let product of products">
@@ -19,7 +19,7 @@
                 <a [routerLink]="'products/'+product.id"><img [src]="product.url" alt="Product Image" class="product-image rounded"></a>
                 <h3 class="product-name">{{ product.name}}</h3>
                 <p class="product-description">{{ product.description }}</p>
-                <p class="product-price">Giá: ${{ product.price }}</p>
+                <p class="product-price">Price: ${{ product.price }}</p>
             </div>
         </div>
     </div>

@@ -2,12 +2,13 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { LoginDTO } from '../../dtos/user/login.dto';
 import { UserService } from '../../services/user.service';
 import { TokenService } from '../../services/token.service';
-import { RoleService } from '../../services/role.service'; // Import RoleService
+import { RoleService } from '../../services/role.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { LoginResponse } from '../../responses/user/login.response';
-import { Role } from '../../models/role'; // Đường dẫn đến model Role
+import { Role } from '../../models/role';
 import { UserResponse } from '../../responses/user/user.response';
+import { environment } from 'src/app/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -61,6 +62,17 @@ export class LoginComponent implements OnInit {
     // Chuyển hướng người dùng đến trang đăng ký (hoặc trang tạo tài khoản)
     this.router.navigate(['/register']);
   }
+  loginWithGoogle(event: Event)
+  {
+  
+    event.preventDefault();
+    const callbackUrl = environment.redirectUri;
+    const authUrl = environment.authUri;
+    const googleClientId = environment.clientId;
+    const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
+    window.location.href = targetUrl;
+    
+  }
   login() {
     const message = `phone: ${this.phoneNumber}` +
       `password: ${this.password}`;
@@ -92,7 +104,6 @@ export class LoginComponent implements OnInit {
             } else if (this.userResponse?.role.name == 'user') {
               this.router.navigate(['/']);
             }
-
           },
           complete: () => {
             debugger;

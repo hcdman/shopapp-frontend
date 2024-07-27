@@ -17,6 +17,8 @@ export class RegisterComponent {
   fullname: string;
   address: string;
   isAccepted: boolean;
+  showPassword: boolean = false;
+  showRetype: boolean = false;
   dateOfBirth: Date;
   constructor(private router: Router, private userService: UserService) {
     this.phone = '';
@@ -89,5 +91,11 @@ export class RegisterComponent {
         this.registerForm.form.controls['dateOfBirth'].setErrors(null);
       }
     }
+  }
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+  toggleRetype() {
+    this.showRetype =  !this.showRetype;
   }
 }
