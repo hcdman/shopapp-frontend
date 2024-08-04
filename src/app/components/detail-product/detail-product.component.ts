@@ -86,9 +86,21 @@ export class DetailProductComponent implements OnInit {
   }
 
   addToCart(): void {
-    
     if (this.product) {
-      this.cartService.addToCart(this.product.id, this.count);
+      this.cartService.addToCart(this.product.id, this.count).subscribe({
+        next: (response: any)=>
+        {
+          console.log(response);
+        },
+        complete: ()=>
+        {
+          alert("Add product to cart successfully !")
+        },
+        error: (error:any)=>
+        {
+          console.log(error.error.message);
+        }
+      })
     } else {
       console.error('Something error!');
     }
@@ -102,8 +114,5 @@ export class DetailProductComponent implements OnInit {
   }
   decrease(): void {
     if (this.count >= 2) { this.count--; }
-  }
-  buyNow(): void {      
-    this.router.navigate(['/orders']);
-  }    
+  }  
 }

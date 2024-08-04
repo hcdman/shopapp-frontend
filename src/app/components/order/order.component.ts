@@ -9,6 +9,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Order } from 'src/app/models/order';
 import { environment } from 'src/app/environments/environment';
+import { Observable } from 'rxjs';
+import { CartItem } from 'src/app/models/cart';
+import { UserService } from 'src/app/services/user.service';
+import { CookieService } from 'ngx-cookie-service';
+import { UserResponse } from 'src/app/responses/user/user.response';
 
 @Component({
   selector: 'app-order',
@@ -16,31 +21,33 @@ import { environment } from 'src/app/environments/environment';
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit{
-  orderForm: FormGroup; // Đối tượng FormGroup để quản lý dữ liệu của form
+  orderForm: FormGroup; 
   cartItems: { product: Product, quantity: number }[] = [];
-  couponCode: string = ''; // Mã giảm giá
-  totalAmount: number = 0; // Tổng tiền
+  couponCode: string = ''; 
+  totalAmount: number = 0; 
+  userResponse?:UserResponse | null;
   orderData: OrderDTO = {
-    user_id: 0, // Thay bằng user_id thích hợp
-    fullname: '', // Khởi tạo rỗng, sẽ được điền từ form
-    email: '', // Khởi tạo rỗng, sẽ được điền từ form    
-    phone_number: '', // Khởi tạo rỗng, sẽ được điền từ form
-    address: '', // Khởi tạo rỗng, sẽ được điền từ form
+    user_id: 0, 
+    fullname: '', 
+    email: '',     
+    phone_number: '',
+    address: '', 
     status: 'pending',
-    note: '', // Có thể thêm trường ghi chú nếu cần
-    total_money: 0, // Sẽ được tính toán dựa trên giỏ hàng và mã giảm giá
-    payment_method: 'cod', // Mặc định là thanh toán khi nhận hàng (COD)
-    shipping_method: 'express', // Mặc định là vận chuyển nhanh (Express)
-    coupon_code: '', // Sẽ được điền từ form khi áp dụng mã giảm giá
-    cart_items: []
+    note: '',
+    total_money: 0,
+    payment_method: 'cod',
+    shipping_method: 'express', 
+    coupon_code: '',
+    cart_items: [],
   };
 
   constructor(
     private cartService: CartService,
-    private productService: ProductService,
     private orderService: OrderService,
     private tokenService: TokenService,
     private formBuilder: FormBuilder,
+    private userService : UserService,
+    private cookieService: CookieService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
@@ -58,50 +65,34 @@ export class OrderComponent implements OnInit{
   
   ngOnInit(): void {  
     debugger
-    //this.cartService.clearCart();
     this.orderData.user_id = this.tokenService.getUserId();    
-    // Lấy danh sách sản phẩm từ giỏ hàng
     debugger
-    const cart = this.cartService.getCart();
-    const productIds = Array.from(cart.keys()); // Chuyển danh sách ID từ Map giỏ hàng    
-
-    // Gọi service để lấy thông tin sản phẩm dựa trên danh sách ID
-    debugger    
-    if(productIds.length === 0) {
-      return;
-    }    
-    this.productService.getProductsByIds(productIds).subscribe({
-      next: (products) => {            
-        debugger
-        // Lấy thông tin sản phẩm và số lượng từ danh sách sản phẩm và giỏ hàng
-        this.cartItems = productIds.map((productId) => {
-          debugger
-          const product = products.find((p) => p.id === productId);
-          if (product) {
-            product.thumbnail = `${environment.apiBaseUrl}/products/images/${product.thumbnail}`;
-          }          
-          return {
-            product: product!,
-            quantity: cart.get(productId)!
-          };
-        });
-        console.log('haha');
-      },
-      complete: () => {
-        debugger;
-        this.calculateTotal()
-      },
-      error: (error: any) => {
-        debugger;
-        console.error('Error fetching detail:', error);
+    this.cartService.getCart().subscribe(
+      {
+        next: (data: CartItem[])=>
+        {
+          //assign data to cartItems
+          this.cartItems = data.map(item => ({
+            product: {
+              ...item.product,
+              thumbnail: `${environment.apiBaseUrl}/products/images/${item.product.thumbnail}`
+            },
+            quantity: item.quantity
+          }));
+        
+        },
+        complete: ()=>
+        {
+          this.calculateTotal()
+        }
       }
-    });        
+    );      
   }
   placeOrder() {
     debugger
     if (this.orderForm.errors == null) {
       // Gán giá trị từ form vào đối tượng orderData
-      /*
+    
       this.orderData.fullname = this.orderForm.get('fullname')!.value;
       this.orderData.email = this.orderForm.get('email')!.value;
       this.orderData.phone_number = this.orderForm.get('phone_number')!.value;
@@ -109,23 +100,25 @@ export class OrderComponent implements OnInit{
       this.orderData.note = this.orderForm.get('note')!.value;
       this.orderData.shipping_method = this.orderForm.get('shipping_method')!.value;
       this.orderData.payment_method = this.orderForm.get('payment_method')!.value;
-      */
+  
       // Sử dụng toán tử spread (...) để sao chép giá trị từ form vào orderData
       this.orderData = {
         ...this.orderData,
         ...this.orderForm.value
       };
+
       this.orderData.cart_items = this.cartItems.map(cartItem => ({
         product_id: cartItem.product.id,
         quantity: cartItem.quantity
       }));
       this.orderData.total_money =  this.totalAmount;
       // Dữ liệu hợp lệ, bạn có thể gửi đơn hàng đi
+      if(this.orderData.payment_method=="cod")
+      {
       this.orderService.placeOrder(this.orderData).subscribe({
         next: (response:Order) => {
           debugger;          
           alert('Đặt hàng thành công');
-          this.cartService.clearCart();
           this.router.navigate(['/']);
         },
         complete: () => {
@@ -137,10 +130,31 @@ export class OrderComponent implements OnInit{
           alert(`Lỗi khi đặt hàng: ${error}`);
         },
       });
-    } else {
-      // Hiển thị thông báo lỗi hoặc xử lý khác
-      alert('Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.');
-    }        
+    }  
+    if(this.orderData.payment_method=="vnpay")
+    {
+      //
+      debugger
+      this.userResponse =  this.userService.getUserResponse();
+      const userResponseJson = JSON.stringify(this.userResponse);
+      const expiredDate = new Date();
+      expiredDate.setMinutes(expiredDate.getMinutes()+10);
+      this.cookieService.set("userTemp", userResponseJson, expiredDate, "/", "localhost", true, "None");
+      this.orderService.vnpayOrder(this.orderData).subscribe(
+        {
+          next: (response: any)=>
+          {
+            console.log(response.message);
+            window.location.href = response.message
+          },
+          complete: ()=>
+          {
+
+          }
+        }
+      )
+    }  
+  }     
   }
     
     
@@ -152,7 +166,26 @@ export class OrderComponent implements OnInit{
           0
       );
   }
-
+  deleteProduct(productId: number): void{
+    this.cartService.deleteProduct(productId).subscribe(
+      {
+       next: (response: any)=>
+        {
+          console.log(response);
+          
+        },
+        complete: ()=>
+        {
+          this.ngOnInit();
+        },
+        error: (error: any)=>
+        {
+          console.log(error.error.message);
+          
+        }
+      }
+    )
+  }
   // Hàm xử lý việc áp dụng mã giảm giá
   applyCoupon(): void {
       // Viết mã xử lý áp dụng mã giảm giá ở đây

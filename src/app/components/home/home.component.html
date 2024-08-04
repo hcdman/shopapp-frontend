@@ -19,7 +19,7 @@
                 <a [routerLink]="'products/'+product.id"><img [src]="product.url" alt="Product Image" class="product-image rounded"></a>
                 <h3 class="product-name">{{ product.name}}</h3>
                 <p class="product-description">{{ product.description }}</p>
-                <p class="product-price">Price: ${{ product.price }}</p>
+                <p class="product-price">Price: {{ product.price| number:'1.2-2' }} VND</p>
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@
                 <div class="register-form mx-auto">
                     <h2 class="register-header">Sign Up</h2>
                     <div class="form-group">
-                        <label for="phoneNumber">Phone's number</label>
+                        <label for="phoneNumber">Phone number</label>
                         <input type="text" class="form-control" name="phone" (focus)="registerForm.form.markAsTouched()"
                             [(ngModel)]="phone" (input)="onPhoneChange()" required id="phoneNumber">
                         <div class="divider-nospace"></div>
@@ -30,7 +30,7 @@
                         <label for="retype-password">Retype password</label>
                         <input type="{{showRetype ? 'text':'password'}}" [(ngModel)]="retypePassword" name="retypePassword"
                             (input)="checkPasswordMatch()" required class="form-control" id="retype-password">
-                        <i class="password-toggle fas" [ngClass]="showPassword ? 
+                        <i class="password-toggle fas" [ngClass]="showRetype ? 
                             'fa-eye' : 'fa-eye-slash'" (click)="toggleRetype()"></i>
                         <div class="divider-nospace"></div>
 

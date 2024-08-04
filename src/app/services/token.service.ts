@@ -24,7 +24,7 @@ export class TokenService {
     const secureFlag = true; // Change to true for production
     const httpOnlyFlag = false; // Change to true for production if backend supports it
     const sameSite = 'Strict'; // You can use 'Lax' or 'Strict' based on your requirements
-    this.cookieService.set(this.TOKEN_KEY, token,expiryDate);
+    this.cookieService.set(this.TOKEN_KEY, token,expiryDate, "/", "localhost", true, "None");
   }
 
   // Remove token

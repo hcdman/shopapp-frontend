@@ -59,10 +59,12 @@ export class UserService {
       if (remember) {
         const expiryDate = new Date();
         expiryDate.setMinutes(expiryDate.getMinutes() + expiresInMinutes);
-        this.cookieService.set("user", userResponseJSON, expiryDate);
+        this.cookieService.set("user", userResponseJSON, expiryDate, "/", "localhost", true, "None");
       }
       else {
+        //use cookie save session storage and 
         window.sessionStorage.setItem('user', userResponseJSON);
+
       }
     } catch (error) {
       console.error('Error saving user response:', error);
@@ -81,14 +83,22 @@ export class UserService {
   getUserResponse() {
     try {
       // Retrieve the JSON string from local storage using the key
-      let userResponseJSON;
+      let userResponseJSON= null;
       if (this.remember) {
         userResponseJSON = this.cookieService.get('user');
+        //in case redirect from vn pay
+        if(userResponseJSON.length==0)
+        {
+          debugger
+          userResponseJSON = this.cookieService.get('userTemp');
+          window.sessionStorage.setItem('user', userResponseJSON);
+          this.cookieService.delete('userTemp');
+          this.remember=false;
+        }
       }
       else {
         userResponseJSON = window.sessionStorage.getItem("user");
       }
-
       if (userResponseJSON == null || userResponseJSON == undefined || userResponseJSON.length==0) {
         return null;
       }
@@ -103,7 +113,6 @@ export class UserService {
   }
   removeUserFromCookie(): void {
     try {
-      // Remove the user data from local storage using the key
       if (this.remember) {
         this.cookieService.delete('user');
       }
