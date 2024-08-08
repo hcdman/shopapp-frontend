@@ -9,9 +9,9 @@ import {
 } from '@angular/forms';
 
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../services/user.service';
-import { TokenService } from '../../services/token.service';
-import { UserResponse } from '../../responses/user/user.response';
+import { UserService } from '../../../services/user.service';
+import { TokenService } from '../../../services/token.service';
+import { UserResponse } from '../../../responses/user/user.response';
 import { UpdateUserDTO } from 'src/app/dtos/user/update.user.dto';
 @Component({
   selector: 'user-profile',

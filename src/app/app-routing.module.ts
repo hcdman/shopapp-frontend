@@ -1,19 +1,20 @@
 import { NgModule, importProvidersFrom } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { HomeComponent } from './components/user/home/home.component';
+import { LoginComponent } from './components/user/login/login.component';
+import { RegisterComponent } from './components/user/register/register.component';
 import { 
   DetailProductComponent 
-} from './components/detail-product/detail-product.component';
-import { OrderComponent } from './components/order/order.component';
-import { OrderDetailComponent } from './components/order-detail/order-detail.component';
-import { UserProfileComponent } from './components/user-profile/user.profile.component';
+} from './components/user/detail-product/detail-product.component';
+import { OrderDetailComponent } from './components/user/order-detail/order-detail.component';
+import { UserProfileComponent } from './components/user/user-profile/user.profile.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { AuthGuardFn } from './guards/auth.guard';
 import { AdminGuardFn } from './guards/admin.guard';
 import { AuthenticateComponent } from './components/authenticate/authenticate.component';
+import { CartComponent } from './components/user/cart/cart.component';
+import { OrderComponent } from './components/user/order/order.component';
 
 
 const routes: Routes = [
@@ -22,9 +23,10 @@ const routes: Routes = [
   { path: 'authenticate', component: AuthenticateComponent }, 
   { path: 'register', component: RegisterComponent },
   { path: 'products/:id', component: DetailProductComponent },  
-  { path: 'orders', component: OrderComponent,canActivate:[AuthGuardFn] },
+  { path: 'carts', component: CartComponent,canActivate:[AuthGuardFn] },
   { path: 'user-profile', component: UserProfileComponent, canActivate:[AuthGuardFn] },
   { path: 'orders/:id', component: OrderDetailComponent },
+  {path: 'orders', component: OrderComponent,canActivate:[AuthGuardFn]},
   //Admin   
   { 
     path: 'admin', 

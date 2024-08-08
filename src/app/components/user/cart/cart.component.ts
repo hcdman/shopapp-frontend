@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../models/product';
-import { CartService } from '../../services/cart.service';
-import { ProductService } from '../../services/product.service';
-import { OrderService } from '../../services/order.service';
-import { TokenService } from '../../services/token.service';
-import { OrderDTO } from '../../dtos/order/order.dto';
+import { Product } from '../../../models/product';
+import { CartService } from '../../../services/cart.service';
+import { ProductService } from '../../../services/product.service';
+import { OrderService } from '../../../services/order.service';
+import { TokenService } from '../../../services/token.service';
+import { OrderDTO } from '../../../dtos/order/order.dto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Order } from 'src/app/models/order';
@@ -16,11 +16,11 @@ import { CookieService } from 'ngx-cookie-service';
 import { UserResponse } from 'src/app/responses/user/user.response';
 
 @Component({
-  selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']
+  selector: 'app-cart',
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.scss']
 })
-export class OrderComponent implements OnInit{
+export class CartComponent implements OnInit{
   orderForm: FormGroup; 
   cartItems: { product: Product, quantity: number }[] = [];
   couponCode: string = ''; 

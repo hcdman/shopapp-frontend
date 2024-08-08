@@ -7,14 +7,14 @@ export interface OrderResponse {
     phone_number: string;
     address: string;
     note: string;
-    order_date: Date; // Dạng chuỗi ISO 8601
+    order_date: Date;
     status: string;
     total_money: number;
     shipping_method: string;
     shipping_address: string;
-    shipping_date: Date; // Dạng chuỗi ISO 8601
+    shipping_date: Date;
     payment_method: string;
-    order_details: OrderDetail[]; // Đảm bảo có một interface OrderDetail tương ứng
+    order_details: OrderDetail[];
   }
   
   

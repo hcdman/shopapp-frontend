@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../../services/user.service';
 import { UserResponse } from 'src/app/responses/user/user.response';
 import { TokenService } from 'src/app/services/token.service';
 
@@ -37,15 +37,18 @@ export class HeaderComponent implements OnInit{
     if(index === 0) {
       debugger
       this.router.navigate(['/user-profile']);                      
-    } else if (index === 2) {
+    } 
+    else if(index ==1)
+    {
+      this.router.navigate(['cart']);
+    }
+    else if (index === 2) {
       this.userService.removeUserFromCookie();
       this.tokenService.removeToken();
-      this.userResponse = this.userService.getUserResponse();    
+      this.router.navigate(["/login"])  
     }
-    this.isPopoverOpen = false; // Close the popover after clicking an item    
+    this.isPopoverOpen = false;   
   }
-
-  
   setActiveNavItem(index: number) {    
     this.activeNavItem = index;
     //alert(this.activeNavItem);

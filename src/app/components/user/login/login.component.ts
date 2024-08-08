@@ -1,13 +1,13 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { LoginDTO } from '../../dtos/user/login.dto';
-import { UserService } from '../../services/user.service';
-import { TokenService } from '../../services/token.service';
-import { RoleService } from '../../services/role.service';
+import { LoginDTO } from '../../../dtos/user/login.dto';
+import { UserService } from '../../../services/user.service';
+import { TokenService } from '../../../services/token.service';
+import { RoleService } from '../../../services/role.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { LoginResponse } from '../../responses/user/login.response';
-import { Role } from '../../models/role';
-import { UserResponse } from '../../responses/user/user.response';
+import { LoginResponse } from '../../../responses/user/login.response';
+import { Role } from '../../../models/role';
+import { UserResponse } from '../../../responses/user/user.response';
 import { environment } from 'src/app/environments/environment';
 
 @Component({
@@ -18,7 +18,7 @@ import { environment } from 'src/app/environments/environment';
 export class LoginComponent implements OnInit {
   @ViewChild('loginForm') loginForm!: NgForm;
 
-  phoneNumber: string = '123321';
+  phoneNumber: string = 'user';
   password: string = 'user';
   showPassword: boolean = false;
   remember: boolean = false;
@@ -74,31 +74,25 @@ export class LoginComponent implements OnInit {
     
   }
   login() {
-    const message = `phone: ${this.phoneNumber}` +
-      `password: ${this.password}`;
-    //alert(message);
-    debugger
-
-    const loginDTO: LoginDTO = {
+      const loginDTO: LoginDTO = {
       phone_number: this.phoneNumber,
       password: this.password,
       role_id: this.selectedRole?.id ?? 1
     };
     this.userService.login(loginDTO).subscribe({
       next: (response: LoginResponse) => {
-        debugger;
         const { token } = response;
-        const expiresInMinutes = 1;
+        const expiresInMinutes = 10;
         this.tokenService.setToken(token,expiresInMinutes);
-        debugger;
+        debugger
         this.userService.getUserDetail(token).subscribe({
           next: (response: any) => {
-            debugger
             this.userResponse = {
               ...response,
               date_of_birth: new Date(response.date_of_birth),
             };
-            this.userService.saveUserResponse(this.userResponse,1,this.remember);
+            this.userService.saveUserResponse(this.userResponse,10,this.remember);
+            debugger
             if (this.userResponse?.role.name == 'admin') {
               this.router.navigate(['/admin']);
             } else if (this.userResponse?.role.name == 'user') {

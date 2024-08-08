@@ -20,10 +20,6 @@ export class TokenService {
   setToken(token: string, expiresInMinutes: number): void {
     const expiryDate = new Date();
     expiryDate.setMinutes(expiryDate.getMinutes() + expiresInMinutes);
-    // Set secure and HttpOnly flags for production
-    const secureFlag = true; // Change to true for production
-    const httpOnlyFlag = false; // Change to true for production if backend supports it
-    const sameSite = 'Strict'; // You can use 'Lax' or 'Strict' based on your requirements
     this.cookieService.set(this.TOKEN_KEY, token,expiryDate, "/", "localhost", true, "None");
   }
 

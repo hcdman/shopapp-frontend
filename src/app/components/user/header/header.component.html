@@ -18,17 +18,28 @@
                       routerLinkActive="active"
                       [routerLinkActiveOptions]="{ exact: true }"
                         (click)="setActiveNavItem(0)"
-                        routerLink="/">Home</a>
+                        routerLink="/">
+                        <i class="fa-solid fa-house"></i>
+                        Home</a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link" 
                       routerLinkActive="active"
                           (click)="setActiveNavItem(1)"
-                          routerLink="/orders">
+                          routerLink="/carts">
                           <i class="fas fa-shopping-cart icon"></i>
                           Cart
                       </a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" 
+                    routerLinkActive="active"
+                        (click)="setActiveNavItem(2)"
+                        routerLink="/orders">
+                        <i class="fa-solid fa-box"></i>
+                        Orders
+                    </a>
+                </li>
                   <li class="nav-item">
                       <ng-container *ngIf="userResponse">
                         <ng-container
@@ -42,6 +53,7 @@
                             [ngbPopover]="popoverContent"
                             (click)="togglePopover($event)"
                           >
+                          <i class="fa-solid fa-user"></i>
                             {{ userResponse.fullname }}
                           </a>
                           <ng-template #popoverContent>
@@ -57,7 +69,7 @@
                         </ng-container>
                       </ng-container>
                       <ng-container *ngIf="!userResponse">
-                        <a class="nav-link" routerLink="/login">Sign In</a>
+                        <a class="nav-link" routerLink="/login"><i class="fa-solid fa-user"></i> Sign In</a>
                       </ng-container>
                     </li>                                                                
               </ul>

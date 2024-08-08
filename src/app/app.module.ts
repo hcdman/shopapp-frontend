@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HomeComponent } from './components/home/home.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { DetailProductComponent } from './components/detail-product/detail-product.component';
-import { OrderComponent } from './components/order/order.component';
-import { OrderDetailComponent } from './components/order-detail/order-detail.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { HomeComponent } from './components/user/home/home.component';
+import { HeaderComponent } from './components/user/header/header.component';
+import { FooterComponent } from './components/user/footer/footer.component';
+import { DetailProductComponent } from './components/user/detail-product/detail-product.component';
+import { OrderDetailComponent } from './components/user/order-detail/order-detail.component';
+import { LoginComponent } from './components/user/login/login.component';
+import { RegisterComponent } from './components/user/register/register.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app/app.component';
-import { UserProfileComponent } from './components/user-profile/user.profile.component';
+import { UserProfileComponent } from './components/user/user-profile/user.profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { AdminModule } from './components/admin/admin.module';
@@ -22,6 +21,8 @@ import {
 } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/interceptor';
 import { AuthenticateComponent } from './components/authenticate/authenticate.component';
+import { CartComponent } from './components/user/cart/cart.component';
+import { OrderComponent } from './components/user/order/order.component';
 
 
 @NgModule({
@@ -30,13 +31,14 @@ import { AuthenticateComponent } from './components/authenticate/authenticate.co
     HeaderComponent,
     FooterComponent, 
     DetailProductComponent, 
-    OrderComponent, 
+    CartComponent, 
     OrderDetailComponent, 
     LoginComponent, 
     RegisterComponent, 
     UserProfileComponent,
     AppComponent,
-    AuthenticateComponent
+    AuthenticateComponent,
+    OrderComponent
   ],
   imports: [
     CommonModule,
