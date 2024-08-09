@@ -28,6 +28,8 @@ export class InsertCategoryAdminComponent implements OnInit {
   }   
 
   insertCategory() {    
+    debugger
+    
     this.categoryService.insertCategory(this.insertCategoryDTO).subscribe({
       next: (response) => {
         debugger

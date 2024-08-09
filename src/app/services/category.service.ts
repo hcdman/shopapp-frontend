@@ -29,7 +29,6 @@ export class CategoryService {
     return this.http.put<Category>(`${this.apiBaseUrl}/categories/${id}`, updatedCategory);
   }  
   insertCategory(insertCategoryDTO: InsertCategoryDTO): Observable<any> {
-    // Add a new category
     return this.http.post(`${this.apiBaseUrl}/categories`, insertCategoryDTO);
   }
 }

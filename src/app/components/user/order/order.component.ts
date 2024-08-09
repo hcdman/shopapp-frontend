@@ -98,7 +98,6 @@ export class OrderComponent {
     }
   }
   viewDetails(order:OrderResponse) {
-    debugger
-    this.router.navigate(['/admin/orders', order.id]);
+    this.router.navigate(['/orders', order.id]);
   }
 }

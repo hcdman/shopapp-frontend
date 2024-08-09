@@ -5,7 +5,6 @@ export interface OrderDetail {
     order: Order;
     product: Product;
     price: number;
-    number_of_products: number;
-    total_money: number;
-    color?: string; // Dấu "?" cho biết thuộc tính này là tùy chọn
+    numberOfProducts: number;
+    totalMoney: number;
 }

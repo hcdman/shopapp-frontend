@@ -26,8 +26,7 @@ export class OrderService {
 
   ) {}
 
-  placeOrder(orderData: OrderDTO): Observable<any> {    
-    // Gửi yêu cầu đặt hàng
+  placeOrder(orderData: OrderDTO): Observable<any> {   
     return this.http.post(this.apiUrl, orderData);
   }
   vnpayOrder(orderData: OrderDTO):Observable<any>{

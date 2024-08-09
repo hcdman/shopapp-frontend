@@ -35,7 +35,7 @@ export class OrderDetailComponent implements OnInit {
   }
 
   getOrderDetails(): void {
-    const orderId = 11; // Thay bằng ID của đơn hàng bạn muốn lấy.
+    const orderId = Number(window.location.href.split('/').pop()); // Thay bằng ID của đơn hàng bạn muốn lấy.
     this.orderService.getOrderById(orderId).subscribe({
       next: (response: any) => {        
         debugger;       
@@ -57,6 +57,7 @@ export class OrderDetailComponent implements OnInit {
           order_detail.product.thumbnail = `${environment.apiBaseUrl}/products/images/${order_detail.product.thumbnail}`;
           return order_detail;
         });     
+        debugger
            
         this.orderResponse.payment_method = response.payment_method;
         this.orderResponse.shipping_date = new Date(

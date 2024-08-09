@@ -23,7 +23,6 @@ export class HeaderComponent implements OnInit{
     
    }
   ngOnInit() {
-    debugger
     this.userResponse = this.userService.getUserResponse();    
   }  
 
